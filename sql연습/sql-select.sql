@@ -32,7 +32,8 @@ LIMIT 0 , 1000;
 select title from titles;
 
 -- 예제 4-2: titles 테이블에서 직급 이름을 중복 없이 출력
--- distinct는 출력 시 중복을 제거한다. 즉, 딱히 distinct라고 메모리를 덜 쓰지 않는다.
+-- distinct는 메모리에 조건에 맞는 모든 행을 적재하고, 출력 시 중복을 제거한다.
+-- 즉, 딱히 distinct라고 메모리를 덜 쓰지 않는다.
 select distinct(title) from titles;
 
 --
