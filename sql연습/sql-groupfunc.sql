@@ -25,6 +25,8 @@ from salaries
 group by emp_no;
 
 -- 5) having
+-- 집계결과(결과 테이블)에서 row를 선택해야 하는 경우
+-- 이미 where절은 실행이 되었기 때문에 having절에서 조건을 주어야 한다.
 -- 예제: 평균 월급이 60000 달러 이상인 직원의 사번과 평균 월급을 출력하세요.
 select emp_no, avg(salary)
 from salaries
