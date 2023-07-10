@@ -5,14 +5,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class InsertTest02 {
+public class DeleteTest02 {
 
 	public static void main(String[] args) {
-		insert("영업2");
-		insert("영업3");
+		boolean result = delete(11L);
+		System.out.println(result ? "성공" : "실패");
 	}
 
-	private static boolean insert(String deptName) {
+	private static boolean delete(Long no) {
 		boolean result = false;
 
 		Connection conn = null;
@@ -32,11 +32,11 @@ public class InsertTest02 {
 
 			// 3. Statement 준비
 			// JDBC에서는 콜론을 붙이지 않는다!
-			String sql = "insert into dept values (null, ?)";
+			String sql = "delete from dept where no=?";
 			pstmt = conn.prepareStatement(sql);
 
-			// 4. 바인딩(binding)
-			pstmt.setString(1, deptName);
+			// 4. 바인딩
+			pstmt.setLong(1, no);
 
 			// 5. SQL 실행
 			int count = pstmt.executeUpdate();

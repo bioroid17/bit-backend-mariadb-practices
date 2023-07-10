@@ -5,14 +5,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class InsertTest02 {
+public class UpdateTest02 {
 
 	public static void main(String[] args) {
-		insert("영업2");
-		insert("영업3");
+		update(3L, "솔루션개발");
+
 	}
 
-	private static boolean insert(String deptName) {
+	public static boolean update(Long deptNo, String deptName) {
 		boolean result = false;
 
 		Connection conn = null;
@@ -32,11 +32,12 @@ public class InsertTest02 {
 
 			// 3. Statement 준비
 			// JDBC에서는 콜론을 붙이지 않는다!
-			String sql = "insert into dept values (null, ?)";
+			String sql = "update dept set name=? where no=?";
 			pstmt = conn.prepareStatement(sql);
 
-			// 4. 바인딩(binding)
+			// 4. Binding
 			pstmt.setString(1, deptName);
+			pstmt.setLong(2, deptNo);
 
 			// 5. SQL 실행
 			int count = pstmt.executeUpdate();

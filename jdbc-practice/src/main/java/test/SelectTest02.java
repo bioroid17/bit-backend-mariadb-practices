@@ -3,20 +3,20 @@ package test;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class InsertTest02 {
+public class SelectTest02 {
 
 	public static void main(String[] args) {
-		insert("영업2");
-		insert("영업3");
+		list();
+
 	}
 
-	private static boolean insert(String deptName) {
-		boolean result = false;
-
+	public static void list() {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try {
 			// 1. JDBC Driver Class 로딩
 			// 오타 없게 하자.
@@ -30,25 +30,34 @@ public class InsertTest02 {
 			// 필요한 연결 정보: url, username, password
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 
-			// 3. Statement 준비
+			// 3. Statement 객체 생성
 			// JDBC에서는 콜론을 붙이지 않는다!
-			String sql = "insert into dept values (null, ?)";
+			String sql = "select no, name from dept order by no desc";
 			pstmt = conn.prepareStatement(sql);
 
-			// 4. 바인딩(binding)
-			pstmt.setString(1, deptName);
+			// 4. Binding
+			// Binding할 파라미터 없음
 
 			// 5. SQL 실행
-			int count = pstmt.executeUpdate();
+			rs = pstmt.executeQuery();
 
 			// 6. 결과 처리
-			result = count == 1;
+			while (rs.next()) {
+				Long no = rs.getLong(1);
+				String name = rs.getString(2);
+
+				System.out.println(no + ":" + name);
+			}
+
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패:" + e);
 		} catch (SQLException e) {
 			System.out.println("Error:" + e);
 		} finally {
 			try {
+				if (rs != null) {
+					rs.close();
+				}
 				if (pstmt != null) {
 					pstmt.close();
 				}
@@ -59,7 +68,6 @@ public class InsertTest02 {
 				e.printStackTrace();
 			}
 		}
-
-		return result;
 	}
+
 }
